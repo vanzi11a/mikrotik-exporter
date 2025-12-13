@@ -75,13 +75,13 @@ jobs:
             # Tag with short SHA (only for master branch)
             type=sha,enable=${{ github.ref == 'refs/heads/master' }}
           labels: |
+            maintainer=vanzi11a
             org.opencontainers.image.title=Mikrotik Exporter
             org.opencontainers.image.description=Prometheus exporter for MikroTik RouterOS devices
-            org.opencontainers.image.vendor=vanzi11a
             org.opencontainers.image.version=${{ steps.meta.outputs.version }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           platforms: linux/amd64,linux/arm64
@@ -96,8 +96,8 @@ jobs:
             BRANCH=${{ steps.meta.outputs.branch }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          provenance: true
-          sbom: true
+          provenance: false # Disable provenance to avoid unknown/unknown
+          sbom: false       # Disable sbom to avoid unknown/unknown
 
       - name: Run Trivy vulnerability scanner
         if: github.event_name != 'pull_request'
