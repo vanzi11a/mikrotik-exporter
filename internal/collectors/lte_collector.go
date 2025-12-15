@@ -62,7 +62,7 @@ func (c *lteCollector) Collect(ctx *metrics.CollectorContext) error {
 }
 
 func (c *lteCollector) collectForInterface(iface string, ctx *metrics.CollectorContext) error {
-	reply, err := ctx.Client.Run("/interface/lte/monitor", "=number="+iface, "=once=",
+	reply, err := ctx.Client.Run("/interface/lte/monitor", "=numbers="+iface, "=once=",
 		"=.proplist=current-cellid,primary-band,rssi,rsrp,rsrq,sinr,status")
 	if err != nil {
 		return fmt.Errorf("fetch %s lte interface statistics error: %w", iface, err)
